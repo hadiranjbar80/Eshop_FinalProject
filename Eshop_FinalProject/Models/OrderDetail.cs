@@ -9,18 +9,10 @@ namespace Eshop_FinalProject.Models
 {
     public class OrderDetail
     {
-        public OrderDetail()
-        {
-
-        }
-
         public int OrderDetailId { get; set; }
         public int OrderId { get; set; }
         public int ProductCount { get; set; }
         public int TotalPrice { get; set; }
         public DateTime DateCreated { get; set; }
-
-        // Navigation Proreties
-
     }
 }
