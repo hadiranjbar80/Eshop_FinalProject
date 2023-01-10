@@ -15,11 +15,13 @@ namespace Eshop_FinalProject.Models
 
         public int Id { get; set; }
         public string ProductName { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
         public int Count { get; set; }
-        public int Price { get; set; }
+        public float Price { get; set; }
 
         // Navigation Properties
 
         public Category Category { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }

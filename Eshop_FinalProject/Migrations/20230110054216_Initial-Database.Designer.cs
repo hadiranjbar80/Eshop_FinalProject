@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eshop_FinalProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230107065057_Initial-Database")]
+    [Migration("20230110054216_Initial-Database")]
     partial class InitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,21 +49,23 @@ namespace Eshop_FinalProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"), 1L, 1);
 
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsFinalized")
                         .HasColumnType("bit");
 
-                    b.Property<int>("OrderDetailId")
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("OrderId");
 
-                    b.HasIndex("OrderDetailId");
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -85,10 +87,13 @@ namespace Eshop_FinalProject.Migrations
                     b.Property<int>("ProductCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("TotalPrice")
-                        .HasColumnType("int");
+                    b.Property<float>("TotalPrice")
+                        .HasColumnType("real");
 
                     b.HasKey("OrderDetailId");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
 
                     b.ToTable("OrderDetails");
                 });
@@ -107,8 +112,12 @@ namespace Eshop_FinalProject.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
@@ -147,13 +156,32 @@ namespace Eshop_FinalProject.Migrations
 
             modelBuilder.Entity("Eshop_FinalProject.Models.Order", b =>
                 {
-                    b.HasOne("Eshop_FinalProject.Models.OrderDetail", "OrderDetail")
-                        .WithMany()
-                        .HasForeignKey("OrderDetailId")
+                    b.HasOne("Eshop_FinalProject.Models.Product", "Product")
+                        .WithMany("Orders")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("OrderDetail");
+                    b.HasOne("Eshop_FinalProject.Models.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Eshop_FinalProject.Models.OrderDetail", b =>
+                {
+                    b.HasOne("Eshop_FinalProject.Models.Order", "Order")
+                        .WithOne("OrderDetail")
+                        .HasForeignKey("Eshop_FinalProject.Models.OrderDetail", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Eshop_FinalProject.Models.Product", b =>
@@ -170,6 +198,22 @@ namespace Eshop_FinalProject.Migrations
             modelBuilder.Entity("Eshop_FinalProject.Models.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Eshop_FinalProject.Models.Order", b =>
+                {
+                    b.Navigation("OrderDetail")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Eshop_FinalProject.Models.Product", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("Eshop_FinalProject.Models.User", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

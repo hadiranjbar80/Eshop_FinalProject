@@ -11,16 +11,19 @@ namespace Eshop_FinalProject.Models
     {
         public OrderDetail()
         {
-
+            Order = new Order();
         }
 
         public int OrderDetailId { get; set; }
         public int OrderId { get; set; }
         public int ProductCount { get; set; }
-        public int TotalPrice { get; set; }
+        public float TotalPrice { get; set; }
         public DateTime DateCreated { get; set; }
 
         // Navigation Proreties
+
+        [ForeignKey("OrderId")]
+        public Order Order { get; set; }
 
     }
 }
