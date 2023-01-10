@@ -11,7 +11,7 @@ namespace Eshop_FinalProject.Models
     {
         public OrderDetail()
         {
-            Order = new Order();
+            //Order = new Order();
         }
 
         public int OrderDetailId { get; set; }

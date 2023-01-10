@@ -10,17 +10,15 @@ namespace Eshop_FinalProject.Services
 {
     public class CategoryService
     {
-        AppDbContext context = new AppDbContext();
-
-        public void InsertCategory(Category category)
+        public static void InsertCategory(Category category,AppDbContext context)
         {
             context.Add(category);
             context.SaveChanges();
         }
 
-        public bool DeleteCategory(int id)
+        public static bool DeleteCategory(int id,AppDbContext context)
         {
-            var category = GetCategory(id);
+            var category = CategoryService.GetCategory(id,context);
             if(category != null)
             {
                 context.Remove(category);
@@ -30,13 +28,13 @@ namespace Eshop_FinalProject.Services
             return false;
         }
 
-        public List<Category> GetAllCategories()
+        public static List<Category> GetAllCategories(int id,AppDbContext context)
         {
             var categories = context.Categories;
             return categories.ToList();
         }
 
-        public Category GetCategory(int id)
+        public static Category GetCategory(int id,AppDbContext context)
         {
             var category = context.Categories.FirstOrDefault(c => c.Id == id);
             return category;

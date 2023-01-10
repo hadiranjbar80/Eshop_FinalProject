@@ -13,7 +13,7 @@ namespace Eshop_FinalProject.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=Final_Project;Integrated Security=True");
+            optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=Final_ProjectDb;Integrated Security=True");
         }
 
         public DbSet<User> Users { get; set; }

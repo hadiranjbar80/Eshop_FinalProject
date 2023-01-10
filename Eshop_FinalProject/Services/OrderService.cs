@@ -10,21 +10,20 @@ namespace Eshop_FinalProject.Services
 {
     public class OrderService
     {
-        AppDbContext context = new AppDbContext();
 
-        public void InsertOrder(Order order)
+        public static void InsertOrder(Order order,AppDbContext context)
         {
             context.Add(order);
             context.SaveChanges();
         }
 
-        public void UpdateOrder(Order order)
+        public static void UpdateOrder(Order order,AppDbContext context)
         {
             context.Update(order);
             context.SaveChanges();
         }
 
-        public void DeleteOrder(Order order)
+        public static void DeleteOrder(Order order,AppDbContext context)
         {
             context.Remove(order);
             context.SaveChanges();

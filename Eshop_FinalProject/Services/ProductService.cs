@@ -10,17 +10,16 @@ namespace Eshop_FinalProject.Services
 {
     public class ProductService
     {
-        AppDbContext context = new AppDbContext();
 
-        public void InsertProduct(Product product)
+        public static void InsertProduct(Product product, AppDbContext context)
         {
             context.Add(product);
             context.SaveChanges();
         }
 
-        public void UpdateProduct(int id, Product givenProduct)
+        public static void UpdateProduct(int id, Product givenProduct, AppDbContext context)
         {
-            var product = GetProduct(id);
+            var product = ProductService.GetProduct(id, context);
             if (product != null)
             {
                 product.ProductName = givenProduct.ProductName;
@@ -31,16 +30,16 @@ namespace Eshop_FinalProject.Services
             }
         }
 
-        public Product GetProduct(int id)
+        public static Product GetProduct(int id, AppDbContext context)
         {
             var product = context.Products.FirstOrDefault(c => c.Id == id);
             return product;
         }
 
-        public bool DeleteProduct(int id)
+        public static bool DeleteProduct(int id, AppDbContext context)
         {
-            var product=GetProduct(id);
-            if(product!=null)
+            var product = ProductService.GetProduct(id,context);
+            if (product != null)
             {
                 context.Remove(product);
                 context.SaveChanges();

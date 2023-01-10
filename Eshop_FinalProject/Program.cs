@@ -1,4 +1,5 @@
 ﻿
+using Eshop_FinalProject.Context;
 using Eshop_FinalProject.Models;
 using Eshop_FinalProject.Services;
 
@@ -8,8 +9,7 @@ namespace Eshop_FinalProject
     {
         static void Main(string[] args)
         {
-            CategoryService categoryService = new CategoryService();
-            ProductService productService = new ProductService();
+            AppDbContext context = new AppDbContext();
             //Category category = new Category()
             //{
             //    CategoryName = "Test"
@@ -22,18 +22,36 @@ namespace Eshop_FinalProject
             //categories.ForEach(x => Console.WriteLine(x.CategoryName));
 
 
-            var getCategory = categoryService.GetCategory(1);
+            //var getCategory = CategoryService.GetCategory(1,context);
 
-            Product product = new Product()
+            //Product product = new Product()
+            //{
+            //    CategoryId = getCategory.Id,
+            //    ProductName = "Test3",
+            //    Count = 1,
+            //    Price = 150
+            //};
+
+            //ProductService.InsertProduct(product, context);
+
+            Order order = new Order()
             {
-                Category = getCategory,
-                ProductName = "Test",
-                Count = 1,
-                Price = 150
+                DateCreated = DateTime.Now,
+                IsFinalized = true,
+                ProductId = 1,
+                UserId = 1
             };
 
-            productService.InsertProduct(product);
+            OrderDetail detail = new OrderDetail
+            {
+                DateCreated = DateTime.Now,
+                ProductCount = 1,
+                TotalPrice = 1254
+            };
 
+            order.OrderDetail = detail;
+
+            OrderService.InsertOrder(order,context);
 
         }
 

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eshop_FinalProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230110054216_Initial-Database")]
+    [Migration("20230110071301_Initial-Database")]
     partial class InitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
