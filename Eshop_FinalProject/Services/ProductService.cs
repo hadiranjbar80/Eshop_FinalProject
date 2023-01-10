@@ -17,17 +17,10 @@ namespace Eshop_FinalProject.Services
             context.SaveChanges();
         }
 
-        public static void UpdateProduct(int id, Product givenProduct, AppDbContext context)
+        public static void UpdateProduct(Product product, AppDbContext context)
         {
-            var product = ProductService.GetProduct(id, context);
-            if (product != null)
-            {
-                product.ProductName = givenProduct.ProductName;
-                product.Price = givenProduct.Price;
-                product.Count = givenProduct.Count;
-                context.Update(product);
-                context.SaveChanges();
-            }
+            context.Update(product);
+            context.SaveChanges();
         }
 
         public static Product GetProduct(int id, AppDbContext context)
@@ -38,7 +31,7 @@ namespace Eshop_FinalProject.Services
 
         public static bool DeleteProduct(int id, AppDbContext context)
         {
-            var product = ProductService.GetProduct(id,context);
+            var product = ProductService.GetProduct(id, context);
             if (product != null)
             {
                 context.Remove(product);
@@ -46,6 +39,12 @@ namespace Eshop_FinalProject.Services
                 return true;
             }
             return false;
+        }
+
+        public static List<Product> GetAllProducts(AppDbContext context)
+        {
+            var products =context.Products.ToList();
+            return products;
         }
     }
 
