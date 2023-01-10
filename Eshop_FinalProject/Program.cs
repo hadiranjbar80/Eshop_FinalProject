@@ -37,16 +37,16 @@ namespace Eshop_FinalProject
             Order order = new Order()
             {
                 DateCreated = DateTime.Now,
-                IsFinalized = true,
-                ProductId = 1,
+                IsFinalized = false,
+                ProductId = 2,
                 UserId = 1
             };
 
             OrderDetail detail = new OrderDetail
             {
                 DateCreated = DateTime.Now,
-                ProductCount = 1,
-                TotalPrice = 1254
+                ProductCount = 2,
+                TotalPrice = 12358
             };
 
             order.OrderDetail = detail;
