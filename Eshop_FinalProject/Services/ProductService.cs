@@ -36,6 +36,18 @@ namespace Eshop_FinalProject.Services
             var product = context.Products.FirstOrDefault(c => c.Id == id);
             return product;
         }
+
+        public bool DeleteProduct(int id)
+        {
+            var product=GetProduct(id);
+            if(product!=null)
+            {
+                context.Remove(product);
+                context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
     }
 
 }

@@ -10,19 +10,29 @@ namespace Eshop_FinalProject
         {
             CategoryService categoryService = new CategoryService();
             ProductService productService = new ProductService();
-            Category category = new Category()
-            {
-                CategoryName = "Test"
-            };
+            //Category category = new Category()
+            //{
+            //    CategoryName = "Test"
+            //};
 
-            categoryService.InsertCategory(category);
+            //categoryService.InsertCategory(category);
 
             //var categories=categoryService.GetAllCategories();
 
             //categories.ForEach(x => Console.WriteLine(x.CategoryName));
 
 
+            var getCategory = categoryService.GetCategory(1);
 
+            Product product = new Product()
+            {
+                Category = getCategory,
+                ProductName = "Test",
+                Count = 1,
+                Price = 150
+            };
+
+            productService.InsertProduct(product);
 
 
         }
