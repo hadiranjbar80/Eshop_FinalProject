@@ -34,6 +34,34 @@ namespace Eshop_FinalProject
 
             //ProductService.InsertProduct(product, context);
 
+            
+            
+
+            Console.Write("Username: ");
+            string username = Console.ReadLine();
+            Console.Write("Password: ");
+            string password = Console.ReadLine();
+
+            if (AuthService.Authenticate(username, password, context) == -1)
+            {
+                Console.WriteLine("404");
+            }
+            else
+            {
+               if (AuthService.isAuth)
+                {
+                    if (AuthService.IsAdmin(username, context))
+                    {
+                        Console.WriteLine($"{username} is Admin");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{username} is not Admin");
+                    }
+                }
+            }
+            
+            
             Order order = new Order()
             {
                 DateCreated = DateTime.Now,
@@ -52,6 +80,8 @@ namespace Eshop_FinalProject
             order.OrderDetail = detail;
 
             OrderService.InsertOrder(order,context);
+            
+            
 
         }
 
