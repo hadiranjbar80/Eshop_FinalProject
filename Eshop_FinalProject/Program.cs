@@ -155,14 +155,14 @@ namespace Eshop_FinalProject
 
                             // To Do: Showing Invoice 
 
-                            //Console.WriteLine("\nId - Name - Price - Count - Description");
-                            //Console.WriteLine(order.ProductId);
+                            OrderService.InsertOrder(order, context);
+
                         }
                     }
                 }
+
             }
 
         }
-
     }
 }
