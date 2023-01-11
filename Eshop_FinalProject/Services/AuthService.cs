@@ -7,22 +7,23 @@ using System.Text;
 using System.Threading.Tasks;
 using Eshop_FinalProject.Models;
 
-namespace FinalProject_ECommerceApplication.Services
+namespace Eshop_FinalProject.Services
 {
     public class AuthService
     {
         public static bool isAuth = false;
-        public static User User { get; set; }
+        public static User User;
+
         public static int Authenticate(string username, string password, AppDbContext context)
         {
             username = Clean(username);
 
-            var user = context.Users.FirstOrDefault(user => user.UserName.ToLower() == username.ToLower() && user.Password == password);
+            var user = context.Users.Include(user => user.Role).FirstOrDefault(user => user.Username.ToLower() == username && user.Password == password);
             User = user;
-            if (user != null)
+            if (User != null)
             {
                 isAuth = true;
-                return (int)user.Role;
+                return User.Role.Id;
             }
             else
             {
@@ -34,17 +35,45 @@ namespace FinalProject_ECommerceApplication.Services
         {
             username = Clean(username);
 
-            var user = context.Users.FirstOrDefault(user => user.UserName.ToLower() == username.ToLower());
+            var user = context.Users.Include(user => user.Role).FirstOrDefault(user => user.Username.ToLower() == username);
 
             if (user != null)
             {
-                if ((int)user.Role == 1) 
-                {
-                    return true;
-                }
-                return false;
+                return (user.Role.Id == Role.Admin);
             }
             return false;
+        }
+
+        public static bool IsAdmin(int roleId)
+        {
+            if (roleId == 1) { return true; }
+            return false;
+        }
+
+        public static string PasswordHandle()
+        {
+            string password = "";
+            ConsoleKey key;
+
+            do
+            {
+                var KeyInfo = Console.ReadKey(intercept: true);
+                key = KeyInfo.Key;
+
+                if (key != ConsoleKey.Backspace)
+                {
+                    Console.Write("*");
+                    if (key != ConsoleKey.Enter)
+                        password = password + KeyInfo.KeyChar;
+                } else if (password.Length > 0 && key == ConsoleKey.Backspace)
+                {
+                    Console.Write("\b \b");
+                    password = password.Substring(0, password.Length - 1);
+                }
+
+
+            } while (key != ConsoleKey.Enter);
+            return password;
         }
 
         private static string Clean(string text)
@@ -53,7 +82,6 @@ namespace FinalProject_ECommerceApplication.Services
             text = text.ToLower();
             return text;
         }
-
 
     }
 }
